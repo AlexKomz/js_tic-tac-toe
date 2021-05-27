@@ -1,0 +1,26 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "dependencies": {},
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexKomz/js_tic-tac-toe.git"
+  },
+  "author": "AlexKomz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexKomz/js_tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/AlexKomz/js_tic-tac-toe#readme",
+  "description": "Игра Tic Tac Toe",
+  "devDependencies": {
+    "eslint": "7.27.0",
+    "eslint-config-htmlacademy": "4.0.0",
+    "stylelint": "13.13.1",
+    "stylelint-config-htmlacademy": "0.1.4"
+  }
+}
