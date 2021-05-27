@@ -89,6 +89,7 @@ input[type="radio"].visually-hidden {
   height: 150px;
   cursor: pointer;
   perspective: 1000px;
+  border-radius: 15%;
 }
 
 .flip-card_inner {
@@ -120,4 +121,58 @@ input[type="radio"].visually-hidden {
 .flip-card_back {
   background-color: #b4c5cc;
   transform: rotateY(180deg);
+
+  position: relative;
+
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.flip-card_back__cross::before,
+.flip-card_back__cross::after {
+  content: "";
+
+  position: absolute;
+
+  width: 15%;
+  height: 90%;
+
+  border-radius: 15px;
+  background-color: #664845;
+}
+
+.flip-card_back__cross::before {
+  transform: rotate(45deg);
+}
+
+.flip-card_back__cross::after {
+  transform: rotate(-45deg);
+}
+
+.flip-card_back__circle::before,
+.flip-card_back__circle::after {
+  content: "";
+
+  position: absolute;
+
+  border-radius: 50%;
+}
+
+.flip-card_back__circle::before {
+  width: 75%;
+  height: 75%;
+
+  background-color: #af8d8b;
+}
+
+.flip-card_back__circle::after {
+  width: 50%;
+  height: 50%;
+
+  background-color: inherit;
+}
+
+.flip-card__hit {
+  box-shadow: inset 0 0 50px 10px #c33124;
 }
