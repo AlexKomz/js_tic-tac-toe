@@ -75,7 +75,7 @@ input[type="radio"].visually-hidden {
   }
 }
 
-@keyframes unflip {
+@keyframes before-flip {
   from {
     transform: rotateY(180deg);
   }
@@ -157,6 +157,7 @@ input[type="radio"].visually-hidden {
   text-align: center;
   transform-style: preserve-3d;
 
+  animation-name: before-flip;
   animation-duration: 1s;
   animation-fill-mode: forwards;
 }
@@ -168,10 +169,6 @@ input[type="radio"].visually-hidden {
   height: 100%;
   backface-visibility: hidden;
   border-radius: 15%;
-}
-
-.flip-card__unflipped {
-  animation-name: unflip;
 }
 
 .flip-card__flipped {
