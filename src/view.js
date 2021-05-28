@@ -47,9 +47,9 @@ export default class View {
     });
   }
 
-  refresh(data) {
-    this._canvas.innerHTML = ``;
-    this._cards = [];
-    this.render(data);
-  }
+  // refresh(data) {
+  //   this._canvas.innerHTML = ``;
+  //   this._cards = [];
+  //   this.render(data);
+  // }
 }
