@@ -75,6 +75,26 @@ input[type="radio"].visually-hidden {
   }
 }
 
+@keyframes unflip {
+  from {
+    transform: rotateY(180deg);
+  }
+
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes flip {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(180deg);
+  }
+}
+
 .button {
   background-color: #e6ccbb;
   border: none;
@@ -135,8 +155,10 @@ input[type="radio"].visually-hidden {
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 1s;
   transform-style: preserve-3d;
+
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
 }
 
 .flip-card_front,
@@ -148,8 +170,12 @@ input[type="radio"].visually-hidden {
   border-radius: 15%;
 }
 
+.flip-card__unflipped {
+  animation-name: unflip;
+}
+
 .flip-card__flipped {
-  transform: rotateY(180deg);
+  animation-name: flip;
 }
 
 .flip-card_front {
