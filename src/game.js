@@ -9,6 +9,7 @@ export default class Game {
 
     this._startClickHandler = this._startClickHandler.bind(this);
     this._resetClickHandler = this._resetClickHandler.bind(this);
+    this._cardClickHandler = this._cardClickHandler.bind(this);
 
     Game._instance = this;
     return this;
@@ -17,13 +18,15 @@ export default class Game {
   init() {
     this._view.render(this._model.data);
     this._setStartScreen();
-    this._view.setResetButtonClickHandler(this._resetClickHandler);
     this._view.update(this._model.data);
+    this._view.setResetButtonClickHandler(this._resetClickHandler);
   }
 
   _start() {
     this._clear();
     this._view.hideTittle();
+    this._view.removeCardClickHandler(4, this._startClickHandler);
+    this._view.setGameClickHandler(this._cardClickHandler);
   }
 
   _setStartScreen() {
@@ -52,12 +55,21 @@ export default class Game {
 
   _startClickHandler() {
     this._start();
-    this._view.removeClickHandler(4, this._startClickHandler);
   }
 
   _resetClickHandler() {
     this._clear();
+    this._view.removeClickHandlers();
     this._setStartScreen();
+    this._view.update(this._model.data);
     this._view.showTittle();
+  }
+
+  _cardClickHandler(id) {
+    this._model.setData(id, {
+      isFlipped: true,
+      imageCode: -1,
+    });
+    this._view.update(this._model.data);
   }
 }
