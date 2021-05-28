@@ -46,12 +46,46 @@ input[type="radio"].visually-hidden {
   overflow: hidden;
 }
 
-@keyframes waist {
+@keyframes hide {
   to {
     margin: 0;
-    height: 0;
     opacity: 0;
   }
+}
+
+@keyframes show {
+  from {
+    margin: 0;
+    opacity: 0;
+  }
+
+  to {
+    margin: 0 0 50px 0;
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.button {
+  background-color: #e6ccbb;
+  border: none;
+
+  display: block;
+
+  width: 50px;
+  height: 50px;
+
+  cursor: pointer;
+  border-radius: 25%;
 }
 
 .game-area {
@@ -62,6 +96,7 @@ input[type="radio"].visually-hidden {
   align-items: center;
 
   background-color: #efeae6;
+  color: #182325;
 }
 
 .game-area_tittle {
@@ -70,6 +105,9 @@ input[type="radio"].visually-hidden {
   text-align: center;
 
   animation-duration: 1s;
+  animation-fill-mode: forwards;
+
+  font-size: 35px;
 }
 
 .game-area_canvas {
@@ -97,7 +135,7 @@ input[type="radio"].visually-hidden {
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.8s;
+  transition: transform 1s;
   transform-style: preserve-3d;
 }
 
@@ -127,6 +165,8 @@ input[type="radio"].visually-hidden {
   display: grid;
   justify-items: center;
   align-items: center;
+
+  font-size: 25px;
 }
 
 .flip-card_back__cross::before,
@@ -173,6 +213,34 @@ input[type="radio"].visually-hidden {
   background-color: inherit;
 }
 
+.flip-card_back__play::before {
+  content: "";
+
+  position: absolute;
+
+  margin-left: 5px;
+
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 50px 0 50px 100px;
+  border-color: transparent transparent transparent #c08f67;
+}
+
 .flip-card__hit {
   box-shadow: inset 0 0 50px 10px #c33124;
+}
+
+.game-area_reset-button {
+  margin: 50px auto 0;
+}
+
+.game-area_reset-button svg {
+  margin-top: 5px;
+  fill: #c08f67;
+}
+
+.game-area_reset-button:hover svg {
+  animation-duration: 1s;
+  animation-name: rotate;
 }
