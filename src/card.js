@@ -1,4 +1,5 @@
 const FLIPPED = `flip-card__flipped`;
+const UNFLIPPED = `flip-card__unflipped`;
 const HIT = `flip-card__hit`;
 
 const cardBackImage = {
@@ -14,6 +15,8 @@ export default class Card {
     this._cardInner = this._card.querySelector(`.flip-card_inner`);
     this._cardBack = this._card.querySelector(`.flip-card_back`);
 
+    this._clickHandlers = [];
+
     if (data.isFlipped) {
       this._cardInner.classList.add(FLIPPED);
 
@@ -27,10 +30,21 @@ export default class Card {
       if (data.isHit) {
         this._cardBack.classList.add(HIT);
       }
+    } else {
+      this._cardInner.classList.add(UNFLIPPED);
     }
   }
 
+  setGameClickHandler(handler) {
+    const gameHandler = () => {
+      handler(this._data.id);
+    };
+
+    this.setClickHandler(gameHandler);
+  }
+
   setClickHandler(handler) {
+    this._clickHandlers.push(handler);
     this._card.addEventListener(`click`, handler);
   }
 
@@ -38,16 +52,25 @@ export default class Card {
     this._card.removeEventListener(`click`, handler);
   }
 
+  removeClickHandlers() {
+    this._clickHandlers.forEach((it) => {
+      this._card.removeEventListener(`click`, it);
+    });
+  }
+
   update(data) {
     if (this._data.isFlipped !== data.isFlipped) {
       const cardBackData = cardBackImage[data.imageCode];
+
       if (cardBackData) {
+        this._cardBack.className = `flip-card_back`;
         this._cardBack.classList.add(cardBackData);
       } else {
         this._cardBack.innerHTML = data.custom;
       }
 
       this._cardInner.classList.toggle(FLIPPED);
+      this._cardInner.classList.toggle(UNFLIPPED);
     }
 
     if (this._data.isHit !== data.isHit) {
