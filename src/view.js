@@ -7,7 +7,6 @@ export default class View {
     this._tittle = this._main.querySelector(`.game-area_tittle`);
     this._canvas = this._main.querySelector(`.game-area_canvas`);
     this._resetButton = this._main.querySelector(`.game-area_reset-button`);
-
     this._cards = [];
   }
 
@@ -27,8 +26,24 @@ export default class View {
     this._cards[id].setClickHandler(handler);
   }
 
-  removeClickHandler(id, handler) {
+  removeCardClickHandler(id, handler) {
     this._cards[id].removeClickHandler(handler);
+  }
+
+  setClickHandler(handler) {
+    this._cards.forEach((it) => it.setClickHandler(handler));
+  }
+
+  removeClickHandler(handler) {
+    this._cards.forEach((it) => it.removeClickHandler(handler));
+  }
+
+  removeClickHandlers() {
+    this._cards.forEach((it) => it.removeClickHandlers());
+  }
+
+  setGameClickHandler(handler) {
+    this._cards.forEach((it) => it.setGameClickHandler(handler));
   }
 
   render(data) {
@@ -40,11 +55,7 @@ export default class View {
   }
 
   update(data) {
-    this._cards.forEach((it, i) => {
-      setTimeout(() => {
-        it.update(data[i]);
-      }, 100);
-    });
+    this._cards.forEach((it, i) => it.update(data[i]));
   }
 
   // refresh(data) {
