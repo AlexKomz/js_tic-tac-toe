@@ -7,6 +7,9 @@ export default class View {
     this._tittle = this._main.querySelector(`.game-area_tittle`);
     this._canvas = this._main.querySelector(`.game-area_canvas`);
     this._resetButton = this._main.querySelector(`.game-area_reset-button`);
+    this._gameScoreContainer = this._main.querySelector(`.game-area_score`);
+    this._gameScoreX = this._gameScoreContainer.querySelector(`.game-area_x-score`);
+    this._gameScoreO = this._gameScoreContainer.querySelector(`.game-area_o-score`);
     this._cards = [];
   }
 
@@ -16,6 +19,16 @@ export default class View {
 
   showTittle() {
     this._tittle.style.animationName = `show`;
+  }
+
+  hideGameScore() {
+    this._gameScoreContainer.style.animationName = `hide`;
+    this._gameScoreContainer.style.animationDuration = `1s`;
+  }
+
+  showGameScore() {
+    this._gameScoreContainer.style.animationName = `show`;
+    this._gameScoreContainer.style.animationDuration = `1s`;
   }
 
   setResetButtonClickHandler(handler) {
@@ -47,7 +60,10 @@ export default class View {
   }
 
   render(data) {
-    Object.values(data).forEach((it) => {
+    this._gameScoreX.innerText = data.xScore;
+    this._gameScoreO.innerText = data.oScore;
+
+    data.field.forEach((it) => {
       const card = new Card(it);
       this._cards.push(card);
       this._canvas.append(card.getElement());
@@ -55,7 +71,10 @@ export default class View {
   }
 
   update(data) {
-    this._cards.forEach((it, i) => it.update(data[i]));
+    this._gameScoreX.innerText = data.xScore;
+    this._gameScoreO.innerText = data.oScore;
+
+    this._cards.forEach((it, i) => it.update(data.field[i]));
   }
 
   // refresh(data) {
