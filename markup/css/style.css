@@ -130,6 +130,21 @@ input[type="radio"].visually-hidden {
   font-size: 35px;
 }
 
+.game-area_score {
+  margin: 0 0 15px 0;
+  padding: 0;
+
+  animation-name: hide;
+  animation-duration: 0s;
+  animation-fill-mode: forwards;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  display: flex;
+  justify-content: space-between;
+}
+
 .game-area_canvas {
   width: auto;
   padding: 10px;
