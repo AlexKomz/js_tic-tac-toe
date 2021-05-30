@@ -46,19 +46,11 @@ export default class Game {
   }
 
   _setMenuScreen(codes, message) {
-    this._model.setData(0, {
-      isFlipped: true,
-      imageCode: codes[0],
-    });
-    this._model.setData(8, {
-      isFlipped: true,
-      imageCode: codes[1],
-    });
-    this._model.setData(4, {
-      isFlipped: true,
-      imageCode: codes[2],
-      custom: message,
-    });
+    this._model.setData(0, codes[0]);
+    this._model.setData(8, codes[1]);
+    this._model.setData(4, codes[2]);
+    this._view.setFlipCards(0, 4, 8);
+    this._view.setMessage(4, message);
   }
 
   _setStartScreen() {
@@ -87,6 +79,7 @@ export default class Game {
 
   _clearField() {
     this._model.clearField();
+    this._view.clearField();
     this._view.update(this._model.data);
   }
 
@@ -111,7 +104,9 @@ export default class Game {
   _cardClickHandler(id) {
     this._currentPlayer.getTurn(id);
 
-    if (this._model.hasSequence()) {
+    const indexes = this._model.hasSequence();
+    if (indexes) {
+      this._view.setHitCards(...indexes);
       this._view.update(this._model.data);
       this._view.removeClickHandlers();
 
@@ -136,6 +131,7 @@ export default class Game {
         this._players.second : this._players.first;
 
       if (this._currentPlayer instanceof AI) {
+        this._view.removeResetButtonClickHandler(this._resetClickHandler);
         this._view.removeClickHandlers();
 
         setTimeout(() => {
@@ -144,6 +140,7 @@ export default class Game {
 
           this._currentPlayer = this._players.first;
 
+          this._view.setResetButtonClickHandler(this._resetClickHandler);
           this._view.setGameClickHandler(this._cardClickHandler);
           this._view.update(this._model.data);
         }, 1500);
@@ -154,16 +151,12 @@ export default class Game {
   }
 
   _firstPlayerClickHandler(id) {
-    this._model.setData(id, {
-      isFlipped: true,
-      imageCode: -1,
-    });
+    this._model.setData(id, -1);
+    this._view.setFlipCards(id);
   }
 
   _secondPlayerClickHandler(id) {
-    this._model.setData(id, {
-      isFlipped: true,
-      imageCode: 1,
-    });
+    this._model.setData(id, 1);
+    this._view.setFlipCards(id);
   }
 }
