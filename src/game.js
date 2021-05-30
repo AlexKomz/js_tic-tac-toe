@@ -101,6 +101,16 @@ export default class Game {
     this._view.showTittle();
   }
 
+  _blockInput() {
+    this._view.removeResetButtonClickHandler(this._resetClickHandler);
+    this._view.removeClickHandlers();
+  }
+
+  _unblockInput() {
+    this._view.setResetButtonClickHandler(this._resetClickHandler);
+    this._view.setClickHandler(this._startClickHandler);
+  }
+
   _cardClickHandler(id) {
     this._currentPlayer.getTurn(id);
 
@@ -108,26 +118,22 @@ export default class Game {
     if (indexes) {
       this._view.setHitCards(...indexes);
       this._view.update(this._model.data);
-      this._view.removeResetButtonClickHandler(this._resetClickHandler);
-      this._view.removeClickHandlers();
+      this._blockInput();
 
       setTimeout(() => {
         this._clearField();
         this._setWinScreen();
-        this._view.setResetButtonClickHandler(this._resetClickHandler);
-        this._view.setClickHandler(this._startClickHandler);
+        this._unblockInput();
         this._view.update(this._model.data);
       }, 1500);
     } else if (this._model.isFullData()) {
       this._view.update(this._model.data);
-      this._view.removeResetButtonClickHandler(this._resetClickHandler);
-      this._view.removeClickHandlers();
+      this._blockInput();
 
       setTimeout(() => {
         this._clearField();
         this._setDrawScreen();
-        this._view.setResetButtonClickHandler(this._resetClickHandler);
-        this._view.setClickHandler(this._startClickHandler);
+        this._unblockInput();
         this._view.update(this._model.data);
       }, 1500);
     } else {
@@ -135,15 +141,13 @@ export default class Game {
         this._players.second : this._players.first;
 
       if (this._currentPlayer instanceof AI) {
-        this._view.removeResetButtonClickHandler(this._resetClickHandler);
-        this._view.removeClickHandlers();
+        this._blockInput();
 
         setTimeout(() => {
           const optimalId = this._currentPlayer.getOptimalID(this._model.data.field);
           this._cardClickHandler(optimalId);
 
-          this._view.setResetButtonClickHandler(this._resetClickHandler);
-          this._view.setGameClickHandler(this._cardClickHandler);
+          this._unblockInput();
           this._view.update(this._model.data);
         }, 1500);
       }
