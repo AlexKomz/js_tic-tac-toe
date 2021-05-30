@@ -9,35 +9,36 @@ const cardBackImage = {
 };
 
 export default class Card {
-  constructor(data) {
-    this._data = Object.assign({}, data);
+  constructor(id) {
+    this._id = id;
+    this._isFlipped = false;
+    this._isHit = false;
+    this._message = ``;
     this._card = this._createElement(this._template);
     this._cardInner = this._card.querySelector(`.flip-card_inner`);
     this._cardBack = this._card.querySelector(`.flip-card_back`);
 
     this._clickHandlers = [];
 
-    if (data.isFlipped) {
-      this._cardInner.classList.add(FLIPPED);
+    this._cardInner.classList.add(UNFLIPPED);
+  }
 
-      const cardBackData = cardBackImage[data.imageCode];
-      if (cardBackData) {
-        this._cardBack.classList.add(cardBackData);
-      } else {
-        this._cardBack.innerHTML = data.custom;
-      }
+  set isFlipped(value) {
+    this._isFlipped = value;
+  }
 
-      if (data.isHit) {
-        this._cardBack.classList.add(HIT);
-      }
-    } else {
-      this._cardInner.classList.add(UNFLIPPED);
-    }
+  set isHit(value) {
+    this._isHit = value;
+  }
+
+  set message(value) {
+    this._message = value;
   }
 
   setGameClickHandler(handler) {
     const gameHandler = () => {
-      handler(this._data.id);
+      this._isFlipped = true;
+      handler(this._id);
     };
 
     this.setClickHandler(gameHandler);
@@ -59,26 +60,27 @@ export default class Card {
   }
 
   update(data) {
-    if (this._data.isFlipped !== data.isFlipped) {
-      const cardBackData = cardBackImage[data.imageCode];
+    this._cardBack.className = `flip-card_back`;
 
-      this._cardBack.className = `flip-card_back`;
+    if (this._isFlipped) {
+      const cardBackData = cardBackImage[data];
 
       if (cardBackData) {
         this._cardBack.classList.add(cardBackData);
       } else {
-        this._cardBack.innerHTML = data.custom;
+        this._cardBack.innerHTML = this._message;
       }
 
-      this._cardInner.classList.toggle(FLIPPED);
-      this._cardInner.classList.toggle(UNFLIPPED);
+      this._cardInner.classList.remove(UNFLIPPED);
+      this._cardInner.classList.add(FLIPPED);
+    } else {
+      this._cardInner.classList.remove(FLIPPED);
+      this._cardInner.classList.add(UNFLIPPED);
     }
 
-    if (this._data.isHit !== data.isHit) {
+    if (this._isHit) {
       this._cardBack.classList.toggle(HIT);
     }
-
-    this._data = Object.assign({}, data);
   }
 
   getElement() {

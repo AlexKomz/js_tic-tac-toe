@@ -35,6 +35,10 @@ export default class View {
     this._resetButton.addEventListener(`click`, handler);
   }
 
+  removeResetButtonClickHandler(handler) {
+    this._resetButton.removeEventListener(`click`, handler);
+  }
+
   setCardClickHandler(id, handler) {
     this._cards[id].setClickHandler(handler);
   }
@@ -63,8 +67,8 @@ export default class View {
     this._gameScoreX.innerText = data.xScore;
     this._gameScoreO.innerText = data.oScore;
 
-    data.field.forEach((it) => {
-      const card = new Card(it);
+    data.field.forEach((_, i) => {
+      const card = new Card(i);
       this._cards.push(card);
       this._canvas.append(card.getElement());
     });
@@ -75,6 +79,30 @@ export default class View {
     this._gameScoreO.innerText = data.oScore;
 
     this._cards.forEach((it, i) => it.update(data.field[i]));
+  }
+
+  setFlipCards(...indexes) {
+    indexes.forEach((it) => {
+      this._cards[it].isFlipped = true;
+    });
+  }
+
+  setHitCards(...indexes) {
+    indexes.forEach((it) => {
+      this._cards[it].isHit = true;
+    });
+  }
+
+  setMessage(id, message) {
+    this._cards[id].message = message;
+  }
+
+  clearField() {
+    this._cards.forEach((it) => {
+      it.isHit = false;
+      it.isFlipped = false;
+      it.message = ``;
+    });
   }
 
   // refresh(data) {
