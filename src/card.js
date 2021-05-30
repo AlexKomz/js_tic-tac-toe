@@ -61,6 +61,7 @@ export default class Card {
 
   update(data) {
     this._cardBack.className = `flip-card_back`;
+    this._cardBack.innerHTML = ``;
 
     if (this._isFlipped) {
       const cardBackData = cardBackImage[data];
