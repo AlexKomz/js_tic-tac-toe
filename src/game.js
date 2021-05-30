@@ -32,7 +32,6 @@ export default class Game {
   init() {
     this._view.render(this._model.data);
     this._setStartScreen();
-    this._view.update(this._model.data);
     this._view.setResetButtonClickHandler(this._resetClickHandler);
   }
 
@@ -59,6 +58,7 @@ export default class Game {
     this._view.showTittle();
     this._view.hideGameScore();
     this._view.setCardClickHandler(4, this._startClickHandler);
+    this._view.update(this._model.data);
   }
 
   _setWinScreen() {
@@ -71,10 +71,12 @@ export default class Game {
     }
 
     this._setMenuScreen([winner, winner, 3], `'${winner < 0 ? `X` : `O`}' player win the game!`);
+    this._view.update(this._model.data);
   }
 
   _setDrawScreen() {
     this._setMenuScreen([-1, 1, 3], `Draw!`);
+    this._view.update(this._model.data);
   }
 
   _clearField() {
@@ -97,7 +99,6 @@ export default class Game {
     this._clearScore();
     this._view.removeClickHandlers();
     this._setStartScreen();
-    this._view.update(this._model.data);
     this._view.showTittle();
   }
 
@@ -129,7 +130,6 @@ export default class Game {
         this._clearField();
         this._setWinScreen();
         this._unblockInput();
-        this._view.update(this._model.data);
       }, 1500);
     } else if (this._model.isFullData()) {
       this._view.update(this._model.data);
@@ -139,7 +139,6 @@ export default class Game {
         this._clearField();
         this._setDrawScreen();
         this._unblockInput();
-        this._view.update(this._model.data);
       }, 1500);
     } else {
       this._currentPlayer = this._currentPlayer === this._players.first ?
@@ -150,9 +149,8 @@ export default class Game {
 
         setTimeout(() => {
           const optimalId = this._currentPlayer.getOptimalID(this._model.data.field);
-          this._cardClickHandler(optimalId);
-
           this._unblockGameInput();
+          this._cardClickHandler(optimalId);
           this._view.update(this._model.data);
         }, 1500);
       }
