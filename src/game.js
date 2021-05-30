@@ -111,6 +111,11 @@ export default class Game {
     this._view.setClickHandler(this._startClickHandler);
   }
 
+  _unblockGameInput() {
+    this._view.setResetButtonClickHandler(this._resetClickHandler);
+    this._view.setGameClickHandler(this._cardClickHandler);
+  }
+
   _cardClickHandler(id) {
     this._currentPlayer.getTurn(id);
 
@@ -147,7 +152,7 @@ export default class Game {
           const optimalId = this._currentPlayer.getOptimalID(this._model.data.field);
           this._cardClickHandler(optimalId);
 
-          this._unblockInput();
+          this._unblockGameInput();
           this._view.update(this._model.data);
         }, 1500);
       }
