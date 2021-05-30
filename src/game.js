@@ -1,4 +1,5 @@
 import Player from "./player.js";
+import AI from "./AI";
 
 
 export default class Game {
@@ -19,7 +20,7 @@ export default class Game {
 
     this._players = {
       first: new Player(this._firstPlayerClickHandler),
-      second: new Player(this._secondPlayerClickHandler),
+      second: new AI(this._secondPlayerClickHandler),
     };
 
     this._currentPlayer = null;
@@ -133,6 +134,20 @@ export default class Game {
     } else {
       this._currentPlayer = this._currentPlayer === this._players.first ?
         this._players.second : this._players.first;
+
+      if (this._currentPlayer instanceof AI) {
+        this._view.removeClickHandlers();
+
+        setTimeout(() => {
+          const ID = this._currentPlayer.getOptimalID(this._model.data);
+          this._currentPlayer.getTurn(ID);
+
+          this._currentPlayer = this._players.first;
+
+          this._view.setGameClickHandler(this._cardClickHandler);
+          this._view.update(this._model.data);
+        }, 1500);
+      }
 
       this._view.update(this._model.data);
     }
