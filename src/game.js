@@ -108,21 +108,25 @@ export default class Game {
     if (indexes) {
       this._view.setHitCards(...indexes);
       this._view.update(this._model.data);
+      this._view.removeResetButtonClickHandler(this._resetClickHandler);
       this._view.removeClickHandlers();
 
       setTimeout(() => {
         this._clearField();
         this._setWinScreen();
+        this._view.setResetButtonClickHandler(this._resetClickHandler);
         this._view.setClickHandler(this._startClickHandler);
         this._view.update(this._model.data);
       }, 1500);
     } else if (this._model.isFullData()) {
       this._view.update(this._model.data);
+      this._view.removeResetButtonClickHandler(this._resetClickHandler);
       this._view.removeClickHandlers();
 
       setTimeout(() => {
         this._clearField();
         this._setDrawScreen();
+        this._view.setResetButtonClickHandler(this._resetClickHandler);
         this._view.setClickHandler(this._startClickHandler);
         this._view.update(this._model.data);
       }, 1500);
@@ -135,10 +139,8 @@ export default class Game {
         this._view.removeClickHandlers();
 
         setTimeout(() => {
-          const ID = this._currentPlayer.getOptimalID(this._model.data);
-          this._currentPlayer.getTurn(ID);
-
-          this._currentPlayer = this._players.first;
+          const optimalId = this._currentPlayer.getOptimalID(this._model.data.field);
+          this._cardClickHandler(optimalId);
 
           this._view.setResetButtonClickHandler(this._resetClickHandler);
           this._view.setGameClickHandler(this._cardClickHandler);
