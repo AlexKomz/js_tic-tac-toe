@@ -1,3 +1,5 @@
+const WIDTH = 3;
+
 export default class Model {
   constructor() {
     this._data = {
@@ -27,35 +29,47 @@ export default class Model {
   hasSequence() {
     const size = this._data.field.length;
 
-    for (let i = 0; i < size; i += 3) {
-      const indexes = [i, i + 1, i + 2];
+    for (let i = 0; i < size; i += WIDTH) {
+      const indexes = [];
+      for (let j = i; j < i + size / WIDTH; j++) {
+        indexes.push(j);
+      }
       const sum = this._sum(indexes);
 
-      if (Math.abs(sum) === 3) {
+      if (Math.abs(sum) === WIDTH) {
         return indexes;
       }
     }
 
-    for (let i = 0; i < size / 3; i++) {
-      const indexes = [i, i + 3, i + 3 * 2];
+    for (let i = 0; i < size / WIDTH; i++) {
+      const indexes = [];
+      for (let j = i; j < size; j += WIDTH) {
+        indexes.push(j);
+      }
       const sum = this._sum(indexes);
 
-      if (Math.abs(sum) === 3) {
+      if (Math.abs(sum) === WIDTH) {
         return indexes;
       }
     }
 
-    let indexes = [0, 4, 4 * 2];
+    let indexes = [];
+    for (let i = 0; i < size; i += (WIDTH + 1)) {
+      indexes.push(i);
+    }
     let sum = this._sum(indexes);
 
-    if (Math.abs(sum) === 3) {
+    if (Math.abs(sum) === WIDTH) {
       return indexes;
     }
 
-    indexes = [2, 2 * 2, 2 * 3];
+    indexes = [];
+    for (let i = WIDTH - 1, j = 1; i < size; i += (WIDTH - 1) * j, j++) {
+      indexes.push(i);
+    }
     sum = this._sum(indexes);
 
-    if (Math.abs(sum) === 3) {
+    if (Math.abs(sum) === WIDTH) {
       return indexes;
     }
 
