@@ -39,9 +39,9 @@ export default class View {
     this._cards[id].setClickHandler(handler);
   }
 
-  removeCardClickHandler(id, handler) {
-    this._cards[id].removeClickHandler(handler);
-  }
+  // removeCardClickHandler(id, handler) {
+  //   this._cards[id].removeClickHandler(handler);
+  // }
 
   setClickHandler(handler) {
     this._cards.forEach((it) => it.setClickHandler(handler));
