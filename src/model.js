@@ -13,7 +13,7 @@ export default class Model {
 
   setData(id, value) {
     const array = this._data.field;
-    array[id] = Object.assign(array[id], value);
+    array[id] = value;
   }
 
   incrementXScore() {
@@ -32,8 +32,7 @@ export default class Model {
       const sum = this._sum(indexes);
 
       if (Math.abs(sum) === 3) {
-        this._hitSequence(indexes);
-        return true;
+        return indexes;
       }
     }
 
@@ -42,8 +41,7 @@ export default class Model {
       const sum = this._sum(indexes);
 
       if (Math.abs(sum) === 3) {
-        this._hitSequence(indexes);
-        return true;
+        return indexes;
       }
     }
 
@@ -51,16 +49,14 @@ export default class Model {
     let sum = this._sum(indexes);
 
     if (Math.abs(sum) === 3) {
-      this._hitSequence(indexes);
-      return true;
+      return indexes;
     }
 
     indexes = [2, 2 * 2, 2 * 3];
     sum = this._sum(indexes);
 
     if (Math.abs(sum) === 3) {
-      this._hitSequence(indexes);
-      return true;
+      return indexes;
     }
 
     return false;
@@ -71,7 +67,7 @@ export default class Model {
     const size = this._data.field.length;
 
     return array.reduce((acc, it) => {
-      const num = Math.abs(it.imageCode);
+      const num = Math.abs(it);
       acc += num;
       return acc;
     }, 0) === size;
@@ -87,27 +83,11 @@ export default class Model {
   }
 
   _getDefaultField() {
-    return Array.from({length: 9})
-      .map((_, i) => {
-        return {
-          id: i,
-          imageCode: 0,
-          isFlipped: false,
-          isHit: false,
-          custom: ``,
-        };
-      });
+    return new Array(9).fill(0);
   }
 
   _sum(indexes) {
     const array = this._data.field.slice();
-    return indexes.reduce((acc, it) => acc + array[it].imageCode, 0);
-  }
-
-  _hitSequence(indexes) {
-    const array = this._data.field;
-    indexes.forEach((it) => {
-      array[it].isHit = true;
-    });
+    return indexes.reduce((acc, it) => acc + array[it], 0);
   }
 }
