@@ -64,7 +64,7 @@ export default class Model {
     }
 
     indexes = [];
-    for (let i = WIDTH - 1, j = 1; i < size; i += (WIDTH - 1) * j, j++) {
+    for (let i = WIDTH - 1; i < size - (WIDTH - 1); i += (WIDTH - 1)) {
       indexes.push(i);
     }
     sum = this._sum(indexes);
