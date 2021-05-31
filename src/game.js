@@ -2,6 +2,8 @@ import Player from "./player.js";
 import AI from "./AI";
 
 
+const TRANSITION_DELAY = 1500;
+
 export default class Game {
   constructor(view, model) {
     if (typeof Game._instance === `object`) {
@@ -19,8 +21,8 @@ export default class Game {
     this._secondPlayerClickHandler = this._secondPlayerClickHandler.bind(this);
 
     this._players = {
-      first: new Player(this._firstPlayerClickHandler),
-      second: new AI(this._secondPlayerClickHandler),
+      first: new Player(-1, this._firstPlayerClickHandler),
+      second: new AI(1, this._secondPlayerClickHandler),
     };
 
     this._currentPlayer = null;
@@ -62,7 +64,7 @@ export default class Game {
   }
 
   _setWinScreen() {
-    const winner = this._currentPlayer === this._players.first ? -1 : 1;
+    const winner = this._currentPlayer.factor;
 
     if (winner < 0) {
       this._model.incrementXScore();
@@ -130,7 +132,7 @@ export default class Game {
         this._clearField();
         this._setWinScreen();
         this._unblockInput();
-      }, 1500);
+      }, TRANSITION_DELAY);
     } else if (this._model.isFullData()) {
       this._view.update(this._model.data);
       this._blockInput();
@@ -139,7 +141,7 @@ export default class Game {
         this._clearField();
         this._setDrawScreen();
         this._unblockInput();
-      }, 1500);
+      }, TRANSITION_DELAY);
     } else {
       this._currentPlayer = this._currentPlayer === this._players.first ?
         this._players.second : this._players.first;
@@ -152,20 +154,20 @@ export default class Game {
           this._unblockGameInput();
           this._cardClickHandler(optimalId);
           this._view.update(this._model.data);
-        }, 1500);
+        }, TRANSITION_DELAY);
       }
 
       this._view.update(this._model.data);
     }
   }
 
-  _firstPlayerClickHandler(id) {
-    this._model.setData(id, -1);
+  _firstPlayerClickHandler(id, factor) {
+    this._model.setData(id, factor);
     this._view.setFlipCards(id);
   }
 
-  _secondPlayerClickHandler(id) {
-    this._model.setData(id, 1);
+  _secondPlayerClickHandler(id, factor) {
+    this._model.setData(id, factor);
     this._view.setFlipCards(id);
   }
 }
