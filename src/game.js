@@ -2,7 +2,7 @@ import Player from "./player.js";
 import AI from "./AI";
 
 
-const TRANSITION_DELAY = 1500;
+const TRANSITION_DELAY = 1000;
 
 export default class Game {
   constructor(view, model) {
@@ -77,6 +77,8 @@ export default class Game {
   }
 
   _setDrawScreen() {
+    this._model.incrementXScore();
+    this._model.incrementOScore();
     this._setMenuScreen([-1, 1, 3], `Draw!`);
     this._view.update(this._model.data);
   }
