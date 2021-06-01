@@ -37,6 +37,17 @@ export default class Game {
     this._view.setResetButtonClickHandler(this._resetClickHandler);
   }
 
+  _turnAI() {
+    this._blockInput();
+
+    setTimeout(() => {
+      const optimalId = this._currentPlayer.getOptimalID(this._model.data.field);
+      this._unblockGameInput();
+      this._cardClickHandler(optimalId);
+      this._view.update(this._model.data);
+    }, TRANSITION_DELAY);
+  }
+
   _start() {
     this._clearField();
     this._view.hideTittle();
@@ -44,6 +55,10 @@ export default class Game {
     this._view.removeClickHandlers();
     this._currentPlayer = this._players.first;
     this._view.setGameClickHandler(this._cardClickHandler);
+
+    if (this._currentPlayer instanceof AI) {
+      this._turnAI();
+    }
   }
 
   _setMenuScreen(codes, message) {
@@ -149,14 +164,7 @@ export default class Game {
         this._players.second : this._players.first;
 
       if (this._currentPlayer instanceof AI) {
-        this._blockInput();
-
-        setTimeout(() => {
-          const optimalId = this._currentPlayer.getOptimalID(this._model.data.field);
-          this._unblockGameInput();
-          this._cardClickHandler(optimalId);
-          this._view.update(this._model.data);
-        }, TRANSITION_DELAY);
+        this._turnAI();
       }
 
       this._view.update(this._model.data);
